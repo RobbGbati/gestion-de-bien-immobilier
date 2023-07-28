@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<title>Acceuil</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/css/custom.css}" />
+</head>
+<body>
+ <header th:insert="header.html::header"></header> 
+ <!--  -->
+ <div class="container bg-white foot" style="margin-top:30px;">
+ 	<div class="row" style="padding: 5px;">
+ 		<p>Vous souhaitez acquérir ou louer un bien immobilier (chambre, appartement ou maison),
+ 		qu'il soit neuf ou ancien? <strong>G-IMMOBILIERS</strong> vous propose ses nombreuses offres.
+ 		N'hésitez pas à parcourir nos offres! 
+ 		</p>
+ 	</div>
+ 	<hr class="immo"/>
+ <!-- Liste des offres -->
+ <h1 class="champ">Liste des offres</h1>
+	<div class="card-columns">
+		<div class="card border-card" th:each="bien: ${biens}">
+			<img class="card-img-top" th:src="@{'/images/'+${bien.image}}" th:alt="${bien.type_bien}" />
+			<div class="card-body">
+				<h5 class="card-title">
+					<span th:utext="${bien.type_bien}"></span>&nbsp;|&nbsp;
+					<span class="champ" th:utext="${bien.montant +' DH'}"></span>
+				</h5>
+				<div class="card-text">
+					<i th:utext="${bien.type_offre}"></i>
+				</div>
+				<hr class="immo" />
+				<div class="card-text">
+					<span th:utext="${#strings.abbreviate(bien.description,40)}"></span>
+				</div>
+				<div class="card-footer">
+					<small class="text-muted">
+						<span th:utext="${bien.ville}"></span>
+						<span> | </span>
+						<span th:utext="${bien.status}"></span>
+					</small>
+					<a th:href="@{'biens/'+${bien.id}+'/voir+'}" class="btn btn-success">Voir+</a>
+				</div>
+			</div>
+		</div>
+	</div>
+ 
+ <!-- Pagination des biens -->
+ 
+ <nav  aria-label="Pagination" th:if="${biens.totalPages gt 0}">
+    <ul class="pagination pagination-sm justify-content-center font-weight-bold" >
+        <li class="page-item" th:classappend="${biens.number eq 0} ? 'disabled'">
+            <a class="page-link svg-icon"
+               th:href="@{/accueil?page={id}(id=${biens.number lt 2 ? 1 : biens.number})}"
+               aria-label="Previous"
+               title="Page précédente"
+               style="margin: 0 3px; border-radius: 5px;">
+                <span aria-hidden="true" >&laquo;</span>
+                <span class="sr-only">Précédent</span>
+            </a>
+        </li>
+        <li class="page-item" th:classappend="${i eq biens.number + 1} ? 'active-pag'"
+            th:each="i : ${#numbers.sequence( biens.number + 1, biens.totalPages > 10 + biens.number ? biens.number + 10 : biens.totalPages, 1)}">
+            <a class="page-link" style="margin: 0 3px; border-radius: 5px;" th:href="@{/accueil?page={id}(id=${i})}" th:text="${i}"
+               th:title="${'Page '+ i}"
+             ></a>
+        </li>
+        <li class="page-item" th:classappend="${biens.number + 1 eq biens.totalPages} ? 'disabled'">
+            <a class="page-link " style="margin: 0 3px; border-radius: 5px;" th:href="@{/accueil?page={id}(id=${biens.number + 2})}"
+               aria-label="Suivant"
+               title="Page suivante">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Suivant</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+ <br />
+ 
+ </div>
+<footer th:insert="footer.html::footer"></footer>
+<script th:src="@{/js/jquery-3.4.1.slim.min.js}" ></script>
+<script th:src="@{/js/bootstrap.min.js}" ></script>
+
+</body>
+</html>

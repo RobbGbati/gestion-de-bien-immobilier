@@ -1,0 +1,98 @@
+.immo{
+	background-color: #003668;
+}
+
+body{
+	background-image: url("../images/fondecran.jpg");
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	background-size:cover;
+	margin:auto;
+}
+
+#inscription{
+	margin-top:30px;
+	width: 430px;
+	box-shadow: 0 5px 10px 0 rgba(0,0,0,0.8);
+}
+
+hr{
+	background-color: #003668;
+}
+
+.fiche-produit{
+	margin-top:30px;
+	width: 80%;
+}
+
+.border-card{
+	border-color: #003668;
+}
+.champ{
+	color: #003668;
+}
+
+.produit-image{
+	width:90%;
+	height: 90%;
+}
+
+#contact{
+	display:block;
+	padding:8px;
+	margin-top:5px;
+	margin-bottom:5px;
+	color: white;
+	border: solid 2px white;
+	border-radius: 5px;
+	text-decoration: none;
+}
+
+#contact:hover{
+	color: #003668;
+	background-color: white;
+}
+
+#btn-contact-envoie{
+	padding:8px;
+	background-color: #003668;
+	color: white;
+	border-radius: 5px;
+	border: none;
+}
+
+#btn-contact-envoie:hover{
+	background-color: white;
+	color: #003668;
+	border: solid 1px #003668;
+	
+}
+
+
+.foot{
+	margin-bottom: 80px;
+}
+
+.welcome{
+	background-color: white;
+	border-radius: 100px;
+}
+
+.deconnexion{
+	background-color: white;
+	border-radius: 100px;
+}
+
+
+.active-pag>a{
+	background-color: #003668;
+	color: white;
+}
+
+#bien,#critere{
+	margin-top:30px;
+	width: 500px;
+	box-shadow: 0 5px 10px 0 rgba(0,0,0,0.8);
+	-webkit-border-radius: 10px 10px 10px 10px;
+	border-radius: 10px 10px 10px 10px;
+}
