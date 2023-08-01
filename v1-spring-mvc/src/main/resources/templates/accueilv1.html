@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<title>Acceuil</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/css/custom.css}" />
+</head>
+<body>
+ <header th:insert="header.html::header"></header>
+ 
+ <!--  -->
+ <div class="container bg-white foot" style="margin-top:30px;">
+ 	<div class="row" style="padding: 5px;">
+ 		<p>Vous souhaitez acquérir ou louer un bien immobilier (chambre, appartement ou maison),
+ 		qu'il soit neuf ou ancien? <strong>G-IMMOBILIERS</strong> vous propose ses nombreuses offres.
+ 		N'hésitez pas à parcourir nos offres! 
+ 		</p>
+ 	</div>
+ 	<hr class="immo"/>
+ <!-- Liste des offres -->
+ <h1 class="champ">Liste des offres</h1>
+	<div class="card-columns">
+		<div class="card border-card" th:each="bien: ${biens}">
+			<img class="card-img-top" th:src="@{'/images/'+${bien.image}+'.jpg'}" th:alt="${bien.type_bien}" />
+			<div class="card-body">
+				<h5 class="card-title">
+					<span th:utext="${bien.type_bien}"></span>&nbsp;|&nbsp;
+					<span class="champ" th:utext="${bien.montant +' DH'}"></span>
+				</h5>
+				<div class="card-text">
+					<i th:utext="${bien.type_offre}"></i>
+				</div>
+				<hr class="immo" />
+				<div class="card-text">
+					<span th:utext="${#strings.abbreviate(bien.description,40)}"></span>
+				</div>
+				<div class="card-footer">
+					<small class="text-muted">
+						<span th:utext="${bien.ville}"></span>
+						<span> | </span>
+						<span th:utext="${bien.status}"></span>
+					</small>
+					<a th:href="@{'biens/'+${bien.id}+'/voir+'}" class="btn btn-success">Voir+</a>
+				</div>
+			</div>
+		</div>
+	</div>
+ </div>
+<footer th:insert="footer.html::footer"></footer>
+<script th:src="@{/js/jquery-3.4.1.slim.min.js}" ></script>
+<script th:src="@{/js/bootstrap.min.js}" ></script>
+</body>
+</html>
