@@ -22,7 +22,12 @@ import lombok.Setter;
 @Setter
 public class JwtUser implements UserDetails {
 	
-    private Long id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
     
     private String username;
     

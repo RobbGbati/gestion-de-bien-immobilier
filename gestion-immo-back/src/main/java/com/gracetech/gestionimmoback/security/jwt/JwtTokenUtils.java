@@ -1,6 +1,7 @@
 package com.gracetech.gestionimmoback.security.jwt;
 
 import java.io.Serializable;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -9,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -51,12 +50,12 @@ public class JwtTokenUtils implements Serializable {
     }
 
     private Claims getAllClaimsFromToken(final String token) {
-    	SecretKey secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
         return Jwts
         		.parserBuilder()
-        		.setSigningKey(secretKey)
+        		.setSigningKey(getSignInKey())
         		.build()
-        		.parseClaimsJws(token).getBody();
+        		.parseClaimsJws(token)
+        		.getBody();
     }
 
     public String getEmailFromToken(final String token) {
@@ -144,7 +143,7 @@ public class JwtTokenUtils implements Serializable {
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
     
-    private SecretKey getSignInKey() {
+    private Key getSignInKey() {
     	return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
     }
 }

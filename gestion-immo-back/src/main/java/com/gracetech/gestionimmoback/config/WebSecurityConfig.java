@@ -64,7 +64,7 @@ public class WebSecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                        		new AntPathRequestMatcher("/auth/**"),
+                        		new AntPathRequestMatcher("/auth/**/**"),
                         		new AntPathRequestMatcher("/api/clients/**"),
                         		new AntPathRequestMatcher("/actuator")).permitAll()
                         .anyRequest().authenticated())

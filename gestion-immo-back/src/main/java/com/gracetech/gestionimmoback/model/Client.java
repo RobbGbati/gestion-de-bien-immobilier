@@ -28,7 +28,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = TableName.CLIENT, uniqueConstraints = @UniqueConstraint(columnNames = "email"))
-@SQLDelete(sql = "UPDATE " + TableName.CLIENT + " SET deleted = 1 WHERE id = ?")
+@SQLDelete(sql = "UPDATE " + TableName.CLIENT + " SET deleted = true WHERE id = ?")
 public class Client extends AbstractAuditing {
 	
 	private static final long serialVersionUID = 1L;

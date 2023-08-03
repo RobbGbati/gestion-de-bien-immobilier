@@ -40,6 +40,11 @@ public class ClientController {
 		return ResponseEntity.ok().body(new GestionImmoResponse(clientService.findAll()));
 	}
 	
+	@GetMapping("/{id}")
+	public ResponseEntity<GestionImmoResponse> getClientById(@PathVariable Long id) {
+		return ResponseEntity.ok().body(new GestionImmoResponse(clientService.getClient(id)));
+	}
+	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
 		clientService.delete(id);

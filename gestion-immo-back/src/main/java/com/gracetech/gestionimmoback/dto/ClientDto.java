@@ -43,6 +43,8 @@ public class ClientDto implements Serializable {
     
     private Boolean active;
     
+    private Boolean deleted;
+    
 	private String createdBy;
 	
 	private Instant createdDate;
