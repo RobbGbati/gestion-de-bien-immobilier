@@ -37,19 +37,17 @@ public class Client extends AbstractAuditing {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
+	@Column(unique = true)
     private String username;
     
     private String lastname;
     
     private String firstname;
     
-    @NotBlank(message = ValidationMsg.EMAIL_MANDATORY)
-	@Email(message = ValidationMsg.EMAIL_VALID)
 	private String email;
     
     private String photo;
     
-    @Size(min=6, message = ValidationMsg.PASSWORD_LENGTH)
     private String password;
     
     private String description;
@@ -67,7 +65,7 @@ public class Client extends AbstractAuditing {
 	private Instant lastPwdResetDate;
 	
 	@ManyToOne()
-	@JoinColumn(name = "id_role" )
+	@JoinColumn(name = "role_id" )
 	private AppRole appRole;
 
 }

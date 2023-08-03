@@ -8,6 +8,6 @@ import com.gracetech.gestionimmoback.model.AppRole;
 @Repository
 public interface AppRoleRepository extends JpaRepository<AppRole, Long> {
 	
-	AppRole findByDescription(String description);
+	AppRole findByDescriptionIgnoreCase(String description);
 
 }

@@ -13,11 +13,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
 @Entity
+@NoArgsConstructor
 @Table(name = TableName.PWD_TOKEN_RESET)
 public class PasswordResetToken extends AbstractAuditing {
 	

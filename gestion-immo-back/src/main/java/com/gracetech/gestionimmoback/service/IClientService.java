@@ -7,6 +7,8 @@ import com.gracetech.gestionimmoback.model.Client;
 
 public interface IClientService {
 	
+	ClientDto save(ClientDto client);
+	
 	ClientDto save(Client client);
 	
 	ClientDto getClient(Long id);
@@ -22,5 +24,7 @@ public interface IClientService {
 	void activateAccountByMail(String mail);
 	
 	void updateLastConnextionDate(Long id);
+	
+	boolean existByEmail(String mail);
 
 }

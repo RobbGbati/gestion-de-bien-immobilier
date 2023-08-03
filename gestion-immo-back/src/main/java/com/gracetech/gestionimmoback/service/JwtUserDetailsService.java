@@ -27,8 +27,6 @@ public class JwtUserDetailsService implements UserDetailsService {
 	
 	private final ClientRepository repository;
 	
-	private final ClientMapper mapper;
-	
 	private final IClientService clientService;
 
 	@Override
@@ -40,7 +38,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 				throw new UserNotActivatedException("User " + email + " is not activated");
 			}
 			
-			final JwtUser jwtUser = mapper.toJwtDto(client);
+			final JwtUser jwtUser = ClientMapper.INSTANCE.toJwtDto(client);
 			List<GrantedAuthority> authorities = new ArrayList<>();
 			
 			if (client.getAppRole() != null) {

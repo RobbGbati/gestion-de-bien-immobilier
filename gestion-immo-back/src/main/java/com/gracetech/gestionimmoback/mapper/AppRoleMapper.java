@@ -1,20 +1,25 @@
 package com.gracetech.gestionimmoback.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 import com.gracetech.gestionimmoback.dto.AppRoleDto;
 import com.gracetech.gestionimmoback.model.AppRole;
 
-@Mapper(componentModel = "string")
-public interface AppRoleMapper extends EntityMapper<AppRoleDto, AppRole> {
+@Mapper(componentModel = "spring")
+public interface AppRoleMapper {
 
-	default AppRole fromId(Long id) {
-		if (id == null) {
-			return null;
-		}
-		AppRole role = new AppRole();
-		role.setId(id);
-		return role;
-	}
+	AppRoleMapper INSTANCE = Mappers.getMapper(AppRoleMapper.class);
+	
+	AppRole toEntity(AppRoleDto dto);
+	
+	AppRoleDto toDto(AppRole role);
+	
+	List<AppRoleDto> toDto(List<AppRole> roles);
+	
+	List<AppRole> toEntity(List<AppRoleDto> roleDtos);
 
+	
 }
