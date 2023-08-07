@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.gracetech.gestionimmoback.model.Client;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
@@ -24,7 +25,8 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 	// check if user exists by his email
 	boolean existsByEmail(String mail);
 
-    @Query("UPDATE Client c SET c.active = true WHERE c.email = :email")
+    @Query("UPDATE Client c SET c.active = true WHERE c.email =:email")
     @Modifying
+	@Transactional
     void activateAccountByEmail(@Param("email") String email);
 }

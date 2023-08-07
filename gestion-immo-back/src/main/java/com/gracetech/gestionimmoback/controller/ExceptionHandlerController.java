@@ -3,6 +3,7 @@ package com.gracetech.gestionimmoback.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -52,6 +53,12 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 	public ResponseEntity<String> customFunctionalException(CustomFunctionalException e, WebRequest request) {
 		log.debug("", e);
 		return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
+	}
+
+	@ExceptionHandler(value = BadCredentialsException.class)
+	public ResponseEntity<String> badCredentialException(BadCredentialsException e, WebRequest request) {
+		log.debug("", e);
+		return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 	}
 	
     @ExceptionHandler(value = Exception.class)

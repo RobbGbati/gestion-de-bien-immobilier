@@ -65,10 +65,10 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                         		new AntPathRequestMatcher("/auth/**/**"),
-                        		new AntPathRequestMatcher("/api/clients/**"),
+//                        		new AntPathRequestMatcher("/api/clients/**"),
                         		new AntPathRequestMatcher("/actuator")).permitAll()
                         .anyRequest().authenticated())
-                
+				.authenticationProvider(authenticationProvider())
                 .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
