@@ -4,6 +4,9 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,6 +55,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(Constants.View.AUTH)
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "Authentication")
 public class AuthController {
 	
 	private final JwtUserDetailsService jwtUserDetailsService;
@@ -67,7 +71,20 @@ public class AuthController {
 	@Value("${app.mail}")
 	String appMail;
 	
-	
+
+	@Operation(
+			summary = "Signup a new client",
+			responses = {
+					@ApiResponse(
+							description = "Client is registered successfuly",
+							responseCode = "200"
+					),
+					@ApiResponse(
+							description = "Email is already taken ",
+							responseCode = "400"
+					)
+			}
+	)
 	@PostMapping("/signup")
 	public ResponseEntity<GestionImmoResponse> signupClient(@Valid @RequestBody SignupRequest req) {
 		if (clientService.existByEmail(req.getEmail())) {
@@ -101,7 +118,21 @@ public class AuthController {
 		
 		return ResponseEntity.ok().body(new GestionImmoResponse("Client is registered successfuly", null));
 	}
-	
+
+
+	@Operation(
+			summary = "Confirm-account to activate it",
+			responses = {
+					@ApiResponse(
+							description = "Account verified !",
+							responseCode = "200"
+					),
+					@ApiResponse(
+							description = "The link is invalid or broken !",
+							responseCode = "400"
+					)
+			}
+	)
 	@GetMapping("/confirm-account")
 	public ResponseEntity<GestionImmoResponse> confirmClientAccount(@RequestParam String token) {
 		ConfirmToken cfToken = confirmTokenRepository.findByToken(token);
@@ -112,7 +143,21 @@ public class AuthController {
 		}
 		return ResponseEntity.badRequest().body(new GestionImmoResponse("The link is invalid or broken !", null));
 	}
-	
+
+
+	@Operation(
+			summary = "Login a user",
+			responses = {
+					@ApiResponse(
+							description = "Success",
+							responseCode = "200"
+					),
+					@ApiResponse(
+							description = "Element not found",
+							responseCode = "404"
+					)
+			}
+	)
 	@PostMapping("/login")
 	public ResponseEntity<GestionImmoResponse> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authReq) {
 		// if the user does not exist
@@ -131,7 +176,17 @@ public class AuthController {
 		return ResponseEntity.ok().body(new GestionImmoResponse(
 				new JwtAuthenticationResponse(token, userDetails)));
 	}
-	
+
+
+	@Operation(
+			summary = "Refresh a token",
+			responses = {
+					@ApiResponse(
+							description = "Token refreshed!",
+							responseCode = "200"
+					)
+			}
+	)
 	@GetMapping("/refresh")
 	public ResponseEntity<GestionImmoResponse> refreshAndGetAuthToken(final HttpServletRequest req) {
 		String authToken = req.getHeader("Authorization");
@@ -147,7 +202,21 @@ public class AuthController {
 			return ResponseEntity.ok().body(new GestionImmoResponse("Not refreshed!", null));
 		}
 	}
-	
+
+
+	@Operation(
+			summary = "Send email when forget the password",
+			responses = {
+					@ApiResponse(
+							description = "You receive an email to reset your password.",
+							responseCode = "200"
+					),
+					@ApiResponse(
+							description = "Internal error",
+							responseCode = "500"
+					)
+			}
+	)
 	@PostMapping("/forget-password")
 	public ResponseEntity<GestionImmoResponse> forgerPassword(@RequestParam String email) {
 		if (!clientService.existByEmail(email)) {
@@ -170,7 +239,21 @@ public class AuthController {
 		
 		return ResponseEntity.ok().body(new GestionImmoResponse("You receive an email to reset your password.", null));
 	}
-	
+
+
+	@Operation(
+			summary = "Reset the password of user",
+			responses = {
+					@ApiResponse(
+							description = "Change password successfully!",
+							responseCode = "200"
+					),
+					@ApiResponse(
+							description = "Session has expired! / Unable to reset your password",
+							responseCode = "404"
+					)
+			}
+	)
 	@PostMapping("/reset-password")
 	public ResponseEntity<GestionImmoResponse> resetPassword(@RequestParam("token") String token, @RequestParam("newPassword") String newPassword) {
 		PasswordResetToken pwdResetToken = resetTokenRepository.findByPwdToken(token);

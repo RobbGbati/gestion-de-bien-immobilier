@@ -8,10 +8,7 @@ import com.gracetech.gestionimmoback.model.ConfirmToken;
 import com.gracetech.gestionimmoback.repository.ConfirmTokenRepository;
 import com.gracetech.gestionimmoback.security.jwt.JwtAuthenticationRequest;
 import com.gracetech.gestionimmoback.service.impl.ClientService;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -25,7 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @ExtendWith(SpringExtension.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AuthenticationControllerTest extends AbstractGestionImmoTest {
 	
 	final static String AUTH_ENDPOINT = "/auth";
@@ -40,7 +36,7 @@ public class AuthenticationControllerTest extends AbstractGestionImmoTest {
 	private ClientDto unActivatedClient;
 	private ConfirmToken confirmToken;
 
-	@BeforeAll
+	@BeforeEach
 	public void setup() {
 		Client client = new Client();
 		client.setId(1L);
@@ -53,16 +49,17 @@ public class AuthenticationControllerTest extends AbstractGestionImmoTest {
 		clientDto = clientService.save(client);
 
 		Client client1 = new Client();
+		client1.setId(2L);
 		client1.setFirstname("test1");
 		client1.setLastname("test1");
 		client1.setPassword("$2a$10$zxx8oOIwKb3rzaLQF7hp3O1gTg0kr9K4vJY62T9.NIbNnom7deLKy");
 		client1.setEmail("unactivated@immo.com");
-		client1.setUsername("test1");
+		client1.setUsername("test165");
 		unActivatedClient = clientService.save(client1);
 
 		initJwtToken("test@immo.com");
-		confirmToken = new ConfirmToken(client1);
-		confirmTokenRepository.save(confirmToken);
+		ConfirmToken confToken = new ConfirmToken(client1);
+		confirmToken = confirmTokenRepository.save(confToken);
 
 	}
 
@@ -163,7 +160,6 @@ public class AuthenticationControllerTest extends AbstractGestionImmoTest {
 	@Test
 	public void confirm_account_with_good_token() throws Exception {
 		ConfirmToken cfToken = confirmTokenRepository.findByToken(confirmToken.getToken());
-//		when(confirmTokenRepository.findByToken(token)).thenReturn(cfToken);
 		System.out.println(cfToken.getToken());
 
 		ClientDto dto = clientService.getByEmail(cfToken.getClient().getEmail());
@@ -175,10 +171,10 @@ public class AuthenticationControllerTest extends AbstractGestionImmoTest {
 						.andExpect( status().isOk())
 						.andExpect(jsonPath("$.message", is("Account verified !")));
 	}
-	@AfterAll
+	@AfterEach
 	public void setupAfterTransaction() {
-		this.clientService.delete(1L);
-		this.clientService.delete(2L);
+		this.clientService.deleteAll();
+		this.confirmTokenRepository.deleteAll();
 	}
 
 }

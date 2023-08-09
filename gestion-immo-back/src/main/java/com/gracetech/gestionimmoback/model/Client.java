@@ -1,27 +1,15 @@
 package com.gracetech.gestionimmoback.model;
 
-import java.time.Instant;
-
-import org.hibernate.annotations.SQLDelete;
-
 import com.gracetech.gestionimmoback.constant.TableName;
-import com.gracetech.gestionimmoback.constant.ValidationMsg;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -67,5 +55,9 @@ public class Client extends AbstractAuditing {
 	@ManyToOne()
 	@JoinColumn(name = "role_id" )
 	private AppRole appRole;
+
+	@OneToMany()
+	@JoinTable(name = "gi_client_biens")
+	private Set<Bien> biens = new HashSet<>();
 
 }

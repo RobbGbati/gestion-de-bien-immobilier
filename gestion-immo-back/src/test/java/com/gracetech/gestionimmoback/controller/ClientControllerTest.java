@@ -17,7 +17,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ClientControllerTest extends AbstractGestionImmoTest {
 
@@ -26,7 +25,7 @@ public class ClientControllerTest extends AbstractGestionImmoTest {
     private IClientService clientService;
     private ClientDto dto;
 
-    @BeforeAll
+    @BeforeEach
     public void setup() {
         Client client = new Client();
         client.setId(1L);
@@ -39,15 +38,27 @@ public class ClientControllerTest extends AbstractGestionImmoTest {
         dto = clientService.save(client);
         initJwtToken(client.getEmail());
 
-        client = new Client();
-        client.setFirstname("test");
-        client.setLastname("test");
-        client.setPassword("$2a$10$zxx8oOIwKb3rzaLQF7hp3O1gTg0kr9K4vJY62T9.NIbNnom7deLKy");
-        client.setEmail("newEmail@immo.com");
-        client.setUsername("new");
-        client.setActive(true);
-        clientService.save(client);
+        Client client1 = new Client();
+        client1.setId(2L);
+        client1.setFirstname("tes66t");
+        client1.setLastname("test646");
+        client1.setPassword("$2a$10$zxx8oOIwKb3rzaLQF7hp3O1gTg0kr9K4vJY62T9.NIbNnom7deLKy");
+        client1.setEmail("newEmail@immo.com");
+        client1.setUsername("new666");
+        client1.setActive(true);
+        clientService.save(client1);
     }
+
+    @Test
+    @Order(1)
+    public void getAll_clients() throws Exception {
+        mockMvc.perform(get(url+ "/all")
+                        .header(AUTHORIZATION, "Bearer " + token))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data", hasSize(3)));
+    }
+
 
     @Test
     public void clientExistByEmail() throws Exception {
@@ -91,15 +102,6 @@ public class ClientControllerTest extends AbstractGestionImmoTest {
     }
 
     @Test
-    public void getAll_clients() throws Exception {
-        mockMvc.perform(get(url+ "/all")
-                        .header(AUTHORIZATION, "Bearer " + token))
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data", hasSize(2)));
-    }
-
-    @Test
     public void deleteClient_with_bad_id() throws Exception {
         mockMvc.perform(delete(url+ "/0")
                         .header(AUTHORIZATION, "Bearer " + token))
@@ -115,6 +117,7 @@ public class ClientControllerTest extends AbstractGestionImmoTest {
     }
 
     @Test
+    @Order(2)
     public void create_client_with_non_existing_email() throws Exception {
         dto.setEmail("new@immo.com");
         mockMvc.perform(post(url)
@@ -126,6 +129,7 @@ public class ClientControllerTest extends AbstractGestionImmoTest {
     }
 
     @Test
+    @Order(3)
     public void create_client_with_duplicate_email() throws Exception {
         mockMvc.perform(post(url)
                         .header(AUTHORIZATION, "Bearer " + token)
@@ -138,6 +142,7 @@ public class ClientControllerTest extends AbstractGestionImmoTest {
     }
 
     @Test
+    @Order(4)
     public void updateClient_with_valid_data() throws Exception {
         dto.setUsername("newUsername");
         dto.setFirstname("Firstname");
@@ -159,5 +164,10 @@ public class ClientControllerTest extends AbstractGestionImmoTest {
                         .content(objectMapper.writeValueAsBytes(dto)))
                 .andExpect(status().isBadRequest())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof CustomFunctionalException));
+    }
+
+    @AfterEach
+    public void setupAfterTransaction() {
+        this.clientService.deleteAll();
     }
 }

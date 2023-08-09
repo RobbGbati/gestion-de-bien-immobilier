@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
+import com.gracetech.gestionimmoback.dto.BienDto;
+import com.gracetech.gestionimmoback.repository.BienRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,8 @@ public class ClientService implements IClientService {
 	
 	private final ClientRepository clientRepository;
 	private final AppRoleRepository roleRepository;
+
+	private final BienRepository repository;
 
 	@Override
 	public ClientDto save(ClientDto client) {
@@ -123,6 +127,16 @@ public class ClientService implements IClientService {
 	@Override
 	public boolean existByEmail(String mail) {
 		return clientRepository.existsByEmail(mail);
+	}
+
+	@Override
+	public void deleteAll() {
+		this.clientRepository.deleteAll();
+	}
+
+	@Override
+	public List<BienDto> getAllEstatesForClient(Long id) {
+		return null;
 	}
 
 }

@@ -1,2 +1,4 @@
 
 gestion-immo-back/.mvn/wrapper/maven-wrapper.jar
+*.db
+v1-spring-mvc/target/**
