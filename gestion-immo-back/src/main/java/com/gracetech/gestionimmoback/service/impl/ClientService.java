@@ -26,8 +26,6 @@ public class ClientService implements IClientService {
 	private final ClientRepository clientRepository;
 	private final AppRoleRepository roleRepository;
 
-	private final BienRepository repository;
-
 	@Override
 	public ClientDto save(ClientDto client) {
 		
@@ -138,5 +136,6 @@ public class ClientService implements IClientService {
 	public List<BienDto> getAllEstatesForClient(Long id) {
 		return null;
 	}
+
 
 }

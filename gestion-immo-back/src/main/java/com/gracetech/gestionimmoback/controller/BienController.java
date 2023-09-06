@@ -1,10 +1,9 @@
 package com.gracetech.gestionimmoback.controller;
 
 import com.gracetech.gestionimmoback.constant.Constants;
-import com.gracetech.gestionimmoback.constant.TableName;
 import com.gracetech.gestionimmoback.dto.BienDto;
 import com.gracetech.gestionimmoback.dto.GestionImmoResponse;
-import com.gracetech.gestionimmoback.model.Bien;
+import com.gracetech.gestionimmoback.mapper.BienMapper;
 import com.gracetech.gestionimmoback.service.IBienService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -34,7 +33,8 @@ public class BienController {
     @GetMapping("/{id}")
     public ResponseEntity<GestionImmoResponse> getBienById(@PathVariable Long id) {
         return ResponseEntity.ok().body(
-                new GestionImmoResponse(bienService.getBienById(id))
+                new GestionImmoResponse(
+                    BienMapper.INSTANCE.toDto(bienService.getBienById(id)))
         );
     }
 
@@ -60,7 +60,8 @@ public class BienController {
     @GetMapping("/searchByDescriptionOrCity")
     public ResponseEntity<GestionImmoResponse> searchBienByDescription(@RequestParam(name = "query") String query) {
         return ResponseEntity.ok().body(
-                new GestionImmoResponse(bienService.searchBiensByDescription(query))
+                new GestionImmoResponse(
+                    BienMapper.INSTANCE.toDto(bienService.searchBiensByDescription(query)))
         );
     }
 
@@ -68,15 +69,17 @@ public class BienController {
     @GetMapping("/createBy/{clientId}")
     public ResponseEntity<GestionImmoResponse> findBienByFirstOwner(@PathVariable Long clientId) {
         return ResponseEntity.ok().body(
-                new GestionImmoResponse(bienService.findBiensByFirstOwner(clientId))
+                new GestionImmoResponse(
+                    BienMapper.INSTANCE.toDto(bienService.findBiensByFirstOwner(clientId)))
         );
     }
 
     @Operation(summary = "Get all bien owned by a client")
-    @GetMapping("/ownedBy/{clientID}")
+    @GetMapping("/ownedBy/{clientId}")
     public ResponseEntity<GestionImmoResponse> findBienOwnedByClient(@PathVariable Long clientId) {
         return ResponseEntity.ok().body(
-                new GestionImmoResponse(bienService.findBienOwnedByClient(clientId))
+                new GestionImmoResponse(
+                    BienMapper.INSTANCE.toDto(bienService.findBienOwnedByClient(clientId)))
         );
     }
 

@@ -3,18 +3,18 @@ package com.gracetech.gestionimmoback.controller;
 import com.gracetech.gestionimmoback.AbstractGestionImmoTest;
 import com.gracetech.gestionimmoback.dto.BienDto;
 import com.gracetech.gestionimmoback.dto.ClientDto;
+import com.gracetech.gestionimmoback.enums.BienStatus;
+import com.gracetech.gestionimmoback.enums.Offre;
 import com.gracetech.gestionimmoback.exception.ElementNotFoundException;
 import com.gracetech.gestionimmoback.mapper.BienMapper;
 import com.gracetech.gestionimmoback.model.Bien;
 import com.gracetech.gestionimmoback.model.Client;
 import com.gracetech.gestionimmoback.service.IBienService;
 import com.gracetech.gestionimmoback.service.IClientService;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import java.util.ArrayList;
@@ -59,11 +59,11 @@ public class BienControllerTest extends AbstractGestionImmoTest {
             Bien bien = new Bien();
             bien.setAddress("adress_" + i);
             bien.setCity("city_" + i);
-            bien.setAnciennete("month_" + i);
+            bien.setDurabilite("month"+i);
             bien.setAmount(10 * i);
             bien.setDescription("description_" + i);
-            bien.setStatus("free");
-            bien.setOffer("offer_" + i);
+            bien.setStatus(BienStatus.DISPONIBLE);
+            bien.setOffre(Offre.LOCATION);
             biens.add(bienService.create(BienMapper.INSTANCE.toDto(bien)));
         }
 
@@ -74,11 +74,11 @@ public class BienControllerTest extends AbstractGestionImmoTest {
         Bien bien = new Bien();
         bien.setAddress("Test");
         bien.setCity("Lille");
-        bien.setAnciennete("2 month");
+        bien.setDurabilite("2 month");
         bien.setAmount(1600);
         bien.setDescription("Bien for test");
-        bien.setStatus("free");
-        bien.setOffer("pppp");
+        bien.setStatus(BienStatus.DISPONIBLE);
+        bien.setOffre(Offre.LOCATION);
 
         mockMvc.perform(post(url).header(AUTHORIZATION, "Bearer "+token)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -92,11 +92,11 @@ public class BienControllerTest extends AbstractGestionImmoTest {
         Bien bien = new Bien();
         bien.setAddress("Test");
         bien.setCity("Lille");
-        bien.setAnciennete("2 month");
+        bien.setDurabilite("2 month");
         bien.setAmount(0);
         bien.setDescription("Bien for test");
-        bien.setStatus("free");
-        bien.setOffer("pppp");
+        bien.setStatus(BienStatus.DISPONIBLE);
+        bien.setOffre(Offre.LOCATION);
 
         mockMvc.perform(post(url).header(AUTHORIZATION, "Bearer "+token)
                         .contentType(MediaType.APPLICATION_JSON)

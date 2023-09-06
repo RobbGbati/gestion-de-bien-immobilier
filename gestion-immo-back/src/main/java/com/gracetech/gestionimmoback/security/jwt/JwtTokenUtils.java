@@ -136,8 +136,8 @@ public class JwtTokenUtils implements Serializable {
                 .collect(Collectors.toList());
         UserPrincipal principal = new UserPrincipal();
         principal.setUsername(claims.getSubject());
-        if (claims.get(USER_ID) instanceof Integer ID) {
-            principal.setId(Long.valueOf(ID));
+        if (claims.get(USER_ID) instanceof Integer iD) {
+            principal.setId(Long.valueOf(iD));
         }
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);

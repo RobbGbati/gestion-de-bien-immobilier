@@ -60,4 +60,8 @@ public class Client extends AbstractAuditing {
 	@JoinTable(name = "gi_client_biens")
 	private Set<Bien> biens = new HashSet<>();
 
+	@OneToMany()
+	@JoinTable(name = "gi_client_transactions")
+	private Set<TransactionImmo> transactions = new HashSet<>();
+
 }

@@ -1,5 +1,6 @@
 package com.gracetech.gestionimmoback.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +26,7 @@ public class AppRoleController {
 
 	private final IAppRoleService service;
 	
+	@Operation(summary = "Create a role")
 	@PostMapping("/create")
 	public ResponseEntity<GestionImmoResponse> createRole(@RequestParam String description) {
 		AppRoleDto toSave = new AppRoleDto();
@@ -33,17 +35,20 @@ public class AppRoleController {
 		return ResponseEntity.ok().body(new GestionImmoResponse(service.save(toSave)));
 	}
 	
+	@Operation(summary = "Delete a role")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<GestionImmoResponse> deleteRole(@PathVariable Long id) {
 		service.delete(id);
 		return ResponseEntity.ok().body(new GestionImmoResponse());
 	}
 	
+	@Operation(summary = "Get role by its id")
 	@GetMapping("/{id}")
 	public ResponseEntity<GestionImmoResponse> getRole(@PathVariable Long id) {
 		return ResponseEntity.ok().body(new GestionImmoResponse(service.getAppRole(id)));
 	}
 	
+	@Operation(summary = "Get all role")
 	@GetMapping("/all")
 	public ResponseEntity<GestionImmoResponse> getAll() {
 		return ResponseEntity.ok().body(new GestionImmoResponse(service.findAll()));

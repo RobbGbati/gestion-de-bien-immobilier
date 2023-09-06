@@ -4,7 +4,6 @@ import com.gracetech.gestionimmoback.dto.AppRoleDto;
 import com.gracetech.gestionimmoback.exception.ElementNotFoundException;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,12 +46,13 @@ public class AppRoleServiceTest {
     @Test
     public void deleteRoleWithNoExistingId_throws_ElementNotFoundException() {
         service.delete(saved.getId());
-        assertThrows(ElementNotFoundException.class, () -> service.getAppRole(saved.getId()));
+        Long id = saved.getId();
+        assertThrows(ElementNotFoundException.class, () -> service.getAppRole(id));
     }
 
     @Test
     public void getAllRoles() {
-        assertEquals(service.findAll().size(), 1, "Should have 1 role");
+        assertEquals( 1, service.findAll().size(), "Should have 1 role");
     }
 
     @NotNull

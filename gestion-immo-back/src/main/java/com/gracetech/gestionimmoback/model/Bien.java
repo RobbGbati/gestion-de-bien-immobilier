@@ -1,6 +1,9 @@
 package com.gracetech.gestionimmoback.model;
 
 import com.gracetech.gestionimmoback.constant.TableName;
+import com.gracetech.gestionimmoback.enums.BienStatus;
+import com.gracetech.gestionimmoback.enums.Offre;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.Getter;
@@ -22,13 +25,13 @@ public class Bien extends  AbstractAuditing {
     private long id;
 
     private String image;
-    private String type_bien; //apartements, chambre, immeuble, maison.....
+    private String typeBien; //apartements, chambre, immeuble, maison.....
     private String city;
     private String address;
     private String description;
-    private String status;
-    private String anciennete; //le local est ancien ou nouveau?
-    private String offer;//vente ou location
+    private BienStatus status;
+    private String durabilite; //le local est ancien ou nouveau ou autre?
+    private Offre offre;//vente ou location
 
     @Min(1)
     private double amount;
